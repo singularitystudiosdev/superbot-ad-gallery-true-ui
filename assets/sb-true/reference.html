@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>sb-true reference: the real Superbot desktop surfaces</title>
+<link rel="stylesheet" href="sb-true.css">
+<style>
+  html, body { margin: 0; background: #000; }
+  .sheet { display: flex; flex-direction: column; gap: 40px; padding: 40px; }
+  .sheet > h2 { color: #888; font: 500 14px/1 system-ui; margin: 0; }
+  .pad { padding: 30px; background: #0d0d0d; width: max-content; }
+</style>
+<script src="sb-true.js"></script>
+</head>
+<body>
+<div class="sheet" id="sheet"></div>
+<script>
+  const S = window.SBT;
+  const rail = [
+    { img: '../../animations/tabs-chaos-superbot-6f50ea56/assets/grok.png', dot: true },
+    { img: '../../animations/tabs-chaos-superbot-6f50ea56/assets/devin.png', dot: true },
+    { img: '../../animations/tabs-chaos-superbot-6f50ea56/assets/hermes.png', dot: true },
+  ];
+  const rows = [
+    { title: 'one window', when: 'now', on: true, live: true },
+    { title: 'trip plan · kyoto', when: '3h' },
+    { title: 'customer email', when: 'Sep 21' },
+    { title: 'bakery website', when: 'Sep 19' },
+  ];
+  const parts = {
+    'shell · idle new chat': `<div class="sbt">${S.shell({ rail, rows, feedBottom: false, feed: S.idle(), dock: S.composer() })}</div>`,
+    'shell · answered': `<div class="sbt">${S.shell({ title: 'one window', rail, rows, feed: `<div class="sbt-col">${S.divider('Sep 22')}${S.user('Order me McDonalds')}${S.steps([
+      { icon: 'map', label: 'Found', target: "McDonald's on 5th Ave", ms: '1.2s' },
+      { icon: 'app', label: 'Opened', target: "the McDonald's app", ms: '2.8s' },
+      { icon: 'cart', label: 'Placing', target: 'a Big Mac Meal', ms: '0.9s', status: 'running' },
+    ])}${S.bot('Ordering a Big Mac Meal from the nearest McDonald’s.')}</div>`, dock: S.composer({ state: 'busy' }) })}</div>`,
+    'composer · idle': `<div class="sbt pad">${S.composer()}</div>`,
+    'composer · typed': `<div class="sbt pad">${S.composer({ state: 'typed', text: 'Who are you', caret: true })}</div>`,
+    'composer · busy': `<div class="sbt pad">${S.composer({ state: 'busy' })}</div>`,
+  };
+  document.getElementById('sheet').innerHTML = Object.entries(parts).map(([k, v]) => `<h2>${k}</h2>${v}`).join('');
+</script>
+</body>
+</html>
